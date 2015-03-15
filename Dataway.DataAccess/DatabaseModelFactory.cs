@@ -272,6 +272,18 @@ namespace Dataway.DataAccess
         }
 
         /// <summary>
+        /// Get a list of model using a custom SQL where clause
+        /// </summary>
+        /// <param name="condition">Where condition, does not require the word 'WHERE' to be added</param>
+        /// <param name="top">The maximum number of results from a query uses sql TOP</param>
+        /// <param name="parameters">The parameters used in the condition, these can be referenced in order ie @0, @1, @2 etc</param>
+        /// <returns>A list of models</returns>
+        public List<T> Where(string condition, int top, params object[] parameters)
+        {
+            return Query.GetList<T>(string.Format("SELECT TOP {0} * FROM {1} WHERE {2}", top, Table, condition), this.ConnectionString, GetFromRow, parameters);
+        }
+
+        /// <summary>
         /// Get the first model using a custom SQL where clase, will return the default value of T if no results match
         /// </summary>
         /// <param name="condition">Where condition, does not require the word 'WHERE' to be added</param>
